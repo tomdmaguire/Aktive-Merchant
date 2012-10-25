@@ -8,8 +8,8 @@
  * @license http://www.opensource.org/licenses/mit-license.php
  */
 class Merchant_Billing_HsbcSecureEpayments extends Merchant_Billing_Gateway {
-  const TEST_URL = 'https://www.secure-epayments.apixml.hsbc.com';
-  const LIVE_URL = 'https://www.secure-epayments.apixml.hsbc.com';
+  const TEST_URL = 'https://apixml.globaliris.com';
+  const LIVE_URL = 'https://apixml.globaliris.com';
 
   private $CARD_TYPE_MAPPINGS = array(
       'visa' => 1, 'master' => 2, 'american_express' => 8, 'solo' => 9,
