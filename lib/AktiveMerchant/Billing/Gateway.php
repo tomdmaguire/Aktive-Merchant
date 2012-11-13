@@ -214,10 +214,7 @@ abstract class Gateway
             $options
         );
         $request->setBody($data);
-        if (true == $request->send()) {
-
-            return $request->getResponseBody();
-        }
+        return $request->send();
     }
 
     

@@ -25,10 +25,6 @@ class Request implements RequestInterface
 
     protected $user_agent;
 
-    protected $response_body;
-    
-    protected $response_headers;
-
     public function __construct(
         $url = null,
         $method=self::METHOD_GET,
@@ -97,16 +93,6 @@ class Request implements RequestInterface
     public function send() 
     {
         return $this->curl(); 
-    }
-
-    public function getResponseBody()
-    {
-        return $this->response_body; 
-    }
-
-    public function getResponseHeaders()
-    {
-        return $this->response_headers;
     }
 
     private function curl()
@@ -180,12 +166,12 @@ class Request implements RequestInterface
                 throw $ex;
             }
             
-            $this->response_headers = substr($response, 0, $curl_info['header_size']);
-            $this->response_body    = substr($response, -$curl_info['size_download']);
-            $this->error_info       = array('curl_errorno' => curl_errno($curl), 'curl_error' => curl_error($curl));
+            $response_headers       = substr($response, 0, $curl_info['header_size']);
+            $response_body          = substr($response, -$curl_info['size_download']);
+            $response_error_number  = curl_errno($curl);
+            $response_error_message = curl_error($curl);
 
-            // OK, the response was OK at the HTTP level at least!
-            return true;
+            return new Response($response_headers, $response_body, $response_error_number, $response_error_message);
         } else {
             throw new Exception('curl is not installed!');
         }
