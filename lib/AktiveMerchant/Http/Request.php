@@ -139,6 +139,8 @@ class Request implements RequestInterface
             curl_setopt($curl, CURLINFO_HEADER_OUT, 1);
             curl_setopt($curl, CURLOPT_HTTPHEADER, $this->headers);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->allow_unsafe_ssl);
+            curl_setopt($curl, CURLOPT_SSLVERSION, 3);
+            curl_setopt($curl, CURLOPT_SSL_CIPHER_LIST, 'RC4-MD5');
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
             curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
@@ -180,6 +182,7 @@ class Request implements RequestInterface
             
             $this->response_headers = substr($response, 0, $curl_info['header_size']);
             $this->response_body    = substr($response, -$curl_info['size_download']);
+            $this->error_info       = array('curl_errorno' => curl_errno($curl), 'curl_error' => curl_error($curl));
 
             // OK, the response was OK at the HTTP level at least!
             return true;
