@@ -81,20 +81,20 @@ class HsbcSecureEpayments extends Gateway implements Interfaces\Charge
     public function authorize($amount, \AktiveMerchant\Billing\CreditCard $creditcard, $options = array())
     {
         $this->build_xml($amount, 'PreAuth', $creditcard, $options);
-        return $this->commit(__FUNCTION__);
+        return $this->commit(__FUNCTION__, $options);
     }
 
     public function purchase($amount, \AktiveMerchant\Billing\CreditCard $creditcard, $options = array())
     {
         $this->build_xml($amount, 'Auth', $creditcard, $options);
-        return $this->commit(__FUNCTION__);
+        return $this->commit(__FUNCTION__, $options);
     }
 
     public function capture($amount, $authorization, $options = array())
     {
         $options['authorization'] = $authorization;
         $this->build_xml($amount, 'PostAuth', null, $options);
-        return $this->commit(__FUNCTION__);
+        return $this->commit(__FUNCTION__, $options);
     }
 
     /**
@@ -303,10 +303,10 @@ XML;
 XML;
     }
 
-    private function commit($action)
+    private function commit($action, $options)
     {
         $url = $this->isTest() ? self::TEST_URL : self::LIVE_URL;
-        $data = $this->ssl_post($url, $this->xml)->getBody();
+        $data = $this->ssl_post($url, $this->xml, $options)->getBody();
         $response = $this->parse($data);
 
         $r = new \AktiveMerchant\Billing\Response($this->success_from($action, $response),
