@@ -269,7 +269,7 @@ XML;
             "SOAPAction: \"http://piraeusbank.gr/paycenter/ProcessTransaction\""
         );
 
-        $data = $this->ssl_post($url, $post_data, array('headers' => $headers));
+        $data = $this->ssl_post($url, $post_data, array('headers' => $headers))->getBody();
 
         $response = $this->parse($data);
 

@@ -122,7 +122,8 @@ class Eurobank extends Gateway implements
         $url = $this->is_test() ? self::TEST_URL : self::LIVE_URL;
 
         $post_data = 'APACScommand=NewRequest&data=' . trim($this->xml);
-        $response = $this->parse($this->ssl_post($url, $post_data));
+        $data = $this->ssl_post($url, $post_data)->getBody();
+        $response = $this->parse($data);
 
         /*
          * Sample of response

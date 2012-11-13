@@ -244,7 +244,7 @@ XML;
             #$parameters['test_request'] = 'TRUE';
         }
 
-        $data = $this->ssl_post($url, $this->post_data($action, $parameters, $this->post));
+        $data = $this->ssl_post($url, $this->post_data($action, $parameters, $this->post))->getBody();
 
         $response = $this->parse($data);
 
@@ -461,7 +461,7 @@ XML;
 
         $headers = array("Content-type: text/xml");
 
-        $data = $this->ssl_post($url, $this->arb_post_data($action, $parameters), array('headers' => $headers));
+        $data = $this->ssl_post($url, $this->arb_post_data($action, $parameters), array('headers' => $headers))->getBody();
 
         $response = $this->arb_parse($data);
 

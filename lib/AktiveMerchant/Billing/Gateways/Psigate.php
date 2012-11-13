@@ -168,7 +168,7 @@ class Psigate extends Gateway implements
         }
 
         // Make the request
-        $data = $this->ssl_post($url, $this->post_data($money, $creditcard, $options));
+        $data = $this->ssl_post($url, $this->post_data($money, $creditcard, $options))->getBody();
         $response = $this->parse($data);
 
         // Make sure the response is valid and doesn't contain an error

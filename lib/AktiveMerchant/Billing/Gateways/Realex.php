@@ -291,7 +291,8 @@ class Realex extends Gateway implements
     private function commit($endpoint='default')
     {
         $url = ($endpoint == 'recurring') ? self::RECURRING_URL : self::URL;
-        $response = $this->parse($this->ssl_post($url, $this->xml->asXML()));
+        $data = $this->ssl_post($url, $this->xml->asXML())->getBody();
+        $response = $this->parse($data);
 
         return new Response(((string) $response->result == '00'), $this->message_from($response), $this->params_from($response), $this->options_from($response));
     }

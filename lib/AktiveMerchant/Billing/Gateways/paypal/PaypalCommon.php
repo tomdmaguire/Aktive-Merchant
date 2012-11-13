@@ -44,10 +44,8 @@ class PaypalCommon extends Gateway
     protected function commit($action)
     {
         $url = $this->isTest() ? self::TEST_URL : self::LIVE_URL;
-
-        $response = $this->parse(
-            $this->ssl_post($url, $this->post_data($action))
-        );
+        $data = $this->ssl_post($url, $this->post_data($action))->getBody();
+        $response = $this->parse($data);
 
         $options = array();
         $options['test'] = $this->isTest();

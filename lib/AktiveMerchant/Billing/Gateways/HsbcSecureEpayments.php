@@ -306,7 +306,8 @@ XML;
     private function commit($action)
     {
         $url = $this->isTest() ? self::TEST_URL : self::LIVE_URL;
-        $response = $this->parse($this->ssl_post($url, $this->xml));
+        $data = $this->ssl_post($url, $this->xml)->getBody();
+        $response = $this->parse($data);
 
         $r = new \AktiveMerchant\Billing\Response($this->success_from($action, $response),
                 $this->message_from($response),

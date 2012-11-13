@@ -310,7 +310,7 @@ class Eway extends Gateway implements
 
         $url = $this->get_gateway_url($action, $cvn, $this->isTest());
         
-        $data = $this->ssl_post($url, $this->post_data($parameters));
+        $data = $this->ssl_post($url, $this->post_data($parameters))->getBody();
 
         $response = $this->parse($data);
 

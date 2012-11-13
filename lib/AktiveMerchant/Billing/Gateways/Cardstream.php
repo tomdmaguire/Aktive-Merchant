@@ -351,7 +351,7 @@ class Cardstream extends Gateway implements Interfaces\Charge, Interfaces\Credit
     {
         $url = $this->isTest() ? self::TEST_URL : self::LIVE_URL;
 
-        $data = $this->ssl_post($url, $this->post_data($action, $parameters));
+        $data = $this->ssl_post($url, $this->post_data($action, $parameters))->getBody();
         $response = $this->parse($data);
 
         $test_mode = $this->isTest();

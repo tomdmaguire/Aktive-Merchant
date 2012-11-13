@@ -144,7 +144,7 @@ XML;
     {
         $url = $this->is_test() ? static::TEST_URL : static::LIVE_URL;
 
-        $data = $this->ssl_post($url, $this->post_data($action, $parameters, array('timeout' => '10')));
+        $data = $this->ssl_post($url, $this->post_data($action, $parameters, array('timeout' => '10')))->getBody();
 
         $options = array('test' => $this->is_test());
 
