@@ -140,26 +140,42 @@ XML;
         return $response;
     }
 
+    private function parse_error($httpResponse)
+    {
+        $response = array();
+        $response['error_no'] = $httpResponse->getErrorNo();
+        $response['error_desc'] = $httpResponse->getErrorMessage();
+
+        return $response;
+    }
+
     private function commit($action, $money, $parameters)
     {
         $url = $this->is_test() ? static::TEST_URL : static::LIVE_URL;
 
-        $data = $this->ssl_post($url, $this->post_data($action), $parameters)->getBody();
+        $httpResp = $this->ssl_post($url, $this->post_data($action), $parameters);
 
         $options = array('test' => $this->is_test());
 
-        switch ($action) {
-            case 'cmpi_lookup':
-                $response = $this->parse_cmpi_lookup($data);
-                $options['authorization'] = $response['transaction_id'];
-                break;
-            case 'cmpi_authenticate':
-                $response = $this->parse_cmpi_authenticate($data);
-                break;
+        if($httpResp->isError()){
+            $response = $this->parse_error($httpResp);
+        
+        } else {
+            $data = $httpResp->getBody();
+            
+            switch ($action) {
+                case 'cmpi_lookup':
+                    $response = $this->parse_cmpi_lookup($data);
+                    $options['authorization'] = $response['transaction_id'];
+                    break;
+                case 'cmpi_authenticate':
+                    $response = $this->parse_cmpi_authenticate($data);
+                    break;
 
-            default:
-                $response = $this->parse($data);
-                break;
+                default:
+                    $response = $this->parse($data);
+                    break;
+            }
         }
 
         return new CentinelResponse($this->success_from($response),

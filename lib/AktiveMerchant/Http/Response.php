@@ -29,6 +29,11 @@ class Response
         return $this->error_no != 0;
     }
 
+    public function getErrorNo()
+    {
+        return $this->error_no;
+    }
+
     public function getErrorMessage()
     {
         return $this->error_message;
