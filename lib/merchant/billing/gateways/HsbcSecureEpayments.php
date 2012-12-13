@@ -386,7 +386,6 @@ XML;
 
     return ( ( isset($response['return_code']) && $response['return_code'] == self::APPROVED ) &&
     $response['transaction_id'] != null &&
-    $response['auth_code'] != null &&
     $response['transaction_status'] == $transaction_status);
   }
 
